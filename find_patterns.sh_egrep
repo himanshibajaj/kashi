@@ -1,0 +1,29 @@
+touch find_patterns.sh
+
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ $# -lt 2 ]; then
+    echo "Usage: $0 <file> <pattern1> [<pattern2> ... <patternN>]"
+    exit 1
+fi
+
+# Assigning the first argument as the file name
+file=$1
+
+# Check if the file exists
+if [ ! -f "$file" ]; then
+    echo "File not found!"
+    exit 1
+fi
+
+# Create a pattern string by joining all the patterns with '|' (OR operator for egrep)
+shift  # Shift the arguments to remove the file argument
+patterns=$(printf "%s|" "$@" | sed 's/|$//')
+
+# Using egrep to display lines containing any of the specified patterns
+egrep "$patterns" "$file"
+
+
+chmod +x find_patterns.sh
+./find_patterns.sh
