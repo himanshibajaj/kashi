@@ -2,10 +2,15 @@ touch largest.sh
 
 #!/bin/bash
 
-# Taking input from user
-read -p "Enter first number: " num1
-read -p "Enter second number: " num2
-read -p "Enter third number: " num3
+# Shell Script to determine largest among three numbers without user input
+
+# Fixed numbers
+num1=45
+num2=78
+num3=32
+
+# Display the numbers
+echo "Numbers are: $num1, $num2, $num3"
 
 # Finding the largest number
 if [ "$num1" -ge "$num2" ] && [ "$num1" -ge "$num3" ]; then
