@@ -1,0 +1,30 @@
+replace_word.sh
+
+#!/bin/bash
+
+# Check if the correct number of arguments is provided
+if [ $# -ne 3 ]; then
+    echo "Usage: $0 <file> <old_word> <new_word>"
+    exit 1
+fi
+
+# Assigning input arguments to variables
+file=$1
+old_word=$2
+new_word=$3
+
+# Check if the file exists
+if [ ! -f "$file" ]; then
+    echo "File not found!"
+    exit 1
+fi
+
+# Using sed to replace all occurrences of old_word with new_word in the file
+sed -i "s/$old_word/$new_word/g" "$file"
+
+# Confirmation message
+echo "All occurrences of '$old_word' have been replaced with '$new_word' in the file $file."
+
+
+chmod +x replace_word.sh
+./replace_word.sh
