@@ -2,13 +2,20 @@ touch interest_calculator.sh
 
 #!/bin/bash
 
+# Shell Script to Calculate Simple Interest and Compound Interest without User Input
+
 # Display welcome message
 echo " Welcome to Interest Calculator (Simple & Compound Interest)"
 
-# Input values
-read -p "Enter Principal Amount (P): " principal
-read -p "Enter Rate of Interest (R) per annum (%): " rate
-read -p "Enter Time Period (T) in years: " time
+# Fixed Input values
+principal=10000   # Principal Amount (₹)
+rate=5            # Rate of Interest per annum (%)
+time=2            # Time period in years
+
+# Show fixed values
+echo "Principal Amount (P) = ₹$principal"
+echo "Rate of Interest (R) = $rate%"
+echo "Time Period (T) = $time years"
 
 # Calculate Simple Interest
 # SI = (P * R * T) / 100
@@ -28,7 +35,6 @@ echo "🧮 Compound Interest (CI) = ₹$compound_interest"
 echo
 echo "✅ Calculation Complete. Thank you!"
 exit 0
-
 
 chmod +x interest_calculator.sh
 ./interest_calculator.sh
