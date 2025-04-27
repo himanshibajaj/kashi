@@ -1,0 +1,33 @@
+ touch file_info.sh
+
+ #!/bin/bash
+
+# Check if a filename is provided
+if [ $# -eq 0 ]; then
+    echo "Usage: $0 <filename>"
+    exit 1
+fi
+
+filename=$1
+
+# Check if the file exists
+if [ ! -f "$filename" ]; then
+    echo "File not found!"
+    exit 1
+fi
+
+# Counting the number of lines
+lines=$(grep -c "" "$filename")
+echo "Number of lines: $lines"
+
+# Counting the number of words
+words=$(grep -o -w "\w\+" "$filename" | wc -l)
+echo "Number of words: $words"
+
+# Counting the number of characters
+characters=$(grep -o . "$filename" | wc -l)
+echo "Number of characters: $characters"
+
+
+chmod +x file_info.sh
+./file_info.sh yourfile.txt
