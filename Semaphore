@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <pthread.h>
+#include <semaphore.h>
+
+#define BUFFER_SIZE 5
+int buffer[BUFFER_SIZE];
+int in = 0;  // Points to the next empty spot in buffer
+int out = 0; // Points to the next full spot in buffer
+
+sem_t empty; // Semaphore to track empty spots in the buffer
+sem_t full;  // Semaphore to track full spots in the buffer
+pthread_mutex_t mutex; // Mutex to provide mutual exclusion for buffer
+
+// Function for the producer to add items to the buffer
+void* producer(void* arg) {
+    for (int i = 0; i < 10; i++) {
+        // Produce an item
+        int item = rand() % 100;
+
+        // Wait for an empty spot in the buffer
+        sem_wait(&empty);
+
+        // Lock the mutex before accessing shared buffer
+        pthread_mutex_lock(&mutex);
+
+        // Add item to the buffer
+        buffer[in] = item;
+        printf("Producer produced: %d\n", item);
+        in = (in + 1) % BUFFER_SIZE; // Circular buffer
+
+        // Unlock the mutex after modifying shared buffer
+        pthread_mutex_unlock(&mutex);
+
+        // Signal that there is a full spot in the buffer
+        sem_post(&full);
+    }
+    return NULL;
+}
+
+// Function for the consumer to remove items from the buffer
+void* consumer(void* arg) {
+    for (int i = 0; i < 10; i++) {
+        // Wait for a full spot in the buffer
+        sem_wait(&full);
+
+        // Lock the mutex before accessing shared buffer
+        pthread_mutex_lock(&mutex);
+
+        // Remove item from the buffer
+        int item = buffer[out];
+        printf("Consumer consumed: %d\n", item);
+        out = (out + 1) % BUFFER_SIZE; // Circular buffer
+
+        // Unlock the mutex after modifying shared buffer
+        pthread_mutex_unlock(&mutex);
+
+        // Signal that there is an empty spot in the buffer
+        sem_post(&empty);
+    }
+    return NULL;
+}
+
+int main() {
+    pthread_t producer_thread, consumer_thread;
+
+    // Initialize semaphores
+    sem_init(&empty, 0, BUFFER_SIZE); // Initially, all spots are empty
+    sem_init(&full, 0, 0);            // Initially, no spots are full
+    pthread_mutex_init(&mutex, NULL);  // Initialize mutex
+
+    // Create producer and consumer threads
+    pthread_create(&producer_thread, NULL, producer, NULL);
+    pthread_create(&consumer_thread, NULL, consumer, NULL);
+
+    // Wait for the threads to finish
+    pthread_join(producer_thread, NULL);
+    pthread_join(consumer_thread, NULL);
+
+    // Destroy semaphores and mutex
+    sem_destroy(&empty);
+    sem_destroy(&full);
+    pthread_mutex_destroy(&mutex);
+
+    return 0;
+}
