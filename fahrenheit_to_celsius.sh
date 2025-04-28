@@ -23,27 +23,28 @@ chmod +x fahrenheit_to_celsius.sh
 
 mkdir ProjectX         # Create a project directory named ProjectX
 cd ProjectX            # Move inside the directory
-touch file1.txt file2.txt file3.txt   # Create multiple empty files
+touch app.py index.html style.css   # Create multiple empty files
+ls
 
 
 ls -l                  # List all files with details (permissions, size, date)
-ls -a                  # List all files including hidden ones
-stat file1.txt         # Show detailed info about a specific file
+file app.py                
+stat index.html        # Show detailed info about a specific file
 
 
-cp file1.txt backup_file1.txt   # Copy file1.txt to backup_file1.txt
-mv file2.txt Archive/file2.txt  # Move file2.txt into an Archive folder (first create Archive folder: mkdir Archive)
+cp app.py app_backup.py  
+mv style.css assets.css  
 
 
-tar -cvf project_archive.tar ProjectX/   # Create a tar archive of ProjectX
-rm file3.txt                             # Delete file3.txt
-rm -r Archive/                           # Delete the Archive folder and its contents
+tar -cvf project_archive.tar app.py index.html assets.css     #archiving the files
+tar -tvf project_archive.tar          #viewing the content
+rm app_backup.py                   # deleting the file         
+                        
 
-
-cat file1.txt           # Display the content of file1.txt
-more file1.txt          # View large file content page-by-page
-less file1.txt          # Same as more but better navigation
-head file1.txt          # Show first 10 lines
-tail file1.txt          # Show last 10 lines
+cat app.py         # Display the content of file1.txt
+more index.html           # View large file content page-by-page
+less app.py           # Same as more but better navigation
+head app.py           # Show first 10 lines
+tail app.py            # Show last 10 lines
 
 
